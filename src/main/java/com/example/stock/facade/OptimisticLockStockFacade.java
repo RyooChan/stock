@@ -4,8 +4,6 @@ import com.example.stock.service.OptimisticLockStockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-
 @Service
 @RequiredArgsConstructor
 public class OptimisticLockStockFacade {

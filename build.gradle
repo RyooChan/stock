@@ -20,6 +20,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.18.0'
 }
 
 tasks.named('test') {

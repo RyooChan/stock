@@ -1,8 +1,8 @@
-package com.example.stock.service;
+package com.example.stock.facade;
 
 import com.example.stock.domain.Stock;
+import com.example.stock.facade.LettuceLockStockFacade;
 import com.example.stock.facade.NamedLockStockFacade;
-import com.example.stock.facade.OptimisticLockStockFacade;
 import com.example.stock.repository.StockRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +17,10 @@ import java.util.concurrent.Executors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class NamedLockStockFacadeTest {
+public class LettuceLockStockFacadeTest {
 
     @Autowired
-    private NamedLockStockFacade namedLockStockFacade;
+    private LettuceLockStockFacade lettuceLockStockFacade;
 
     @Autowired
     private StockRepository stockRepository;
@@ -46,7 +46,9 @@ public class NamedLockStockFacadeTest {
         for(int i=0; i<threadCount; i++){
             executorService.submit(() ->{
                 try{
-                    namedLockStockFacade.decrease(1L, 1L);
+                    lettuceLockStockFacade.decrease(1L, 1L);
+                } catch (InterruptedException e){
+                    throw new RuntimeException(e);
                 } finally {
                     latch.countDown();
                 }
@@ -60,4 +62,5 @@ public class NamedLockStockFacadeTest {
         // 100 - (1*100) = 0
         assertEquals(0L, stock.getQuantity());
     }
+
 }

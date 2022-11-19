@@ -9,19 +9,15 @@ import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class StockService {
-
+public class PessimisticLockStockService {
     private final StockRepository stockRepository;
 
     @Transactional
-    public synchronized void decrease(Long id, Long quantity){
-        // get stock
-        Stock stock = stockRepository.findById(id).orElseThrow();
+    public void decrease(Long id, Long quantity) {
+        Stock stock = stockRepository.findByIdWithPessimisticLock(id);
 
-        // decrease stock
         stock.decrease(quantity);
 
-        // save
         stockRepository.saveAndFlush(stock);
     }
 }
